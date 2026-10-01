@@ -1,0 +1,263 @@
+/* ==========================================================================
+   1. GLOBAL VARIABLES & DESIGN SYSTEM
+   ========================================================================== */
+:root {
+  --bg-main: #f8fafc;
+  --text-primary: #0f172a;
+  --accent-black: #0f172a;
+  --accent-hover: #334155;
+  --accent-bronze: #5d4037;
+}
+
+body {
+  font-family:
+    system-ui,
+    -apple-system,
+    sans-serif;
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+h1,
+h2,
+h3 {
+  font-family: "Noto Serif Display", serif;
+  font-weight: 800;
+}
+
+/* ==========================================================================
+   2. NAVIGATION & LOGO
+   ========================================================================== */
+.logo-img {
+  max-height: 80px;
+  transition: transform 0.2s ease;
+}
+
+.logo-img:hover {
+  transform: scale(1.03);
+}
+
+.navbar {
+  background-color: #ffffff !important;
+  backdrop-filter: none;
+}
+
+.nav-link {
+  font-weight: 600;
+  color: #475569 !important;
+  transition: color 0.2s;
+}
+
+.nav-link:hover {
+  color: var(--accent-bronze) !important;
+}
+
+.nav-link.active {
+  color: var(--accent-black) !important;
+  border-bottom: 2px solid var(--accent-bronze);
+}
+
+/* ==========================================================================
+   3. BUTTONS & CARDS
+   ========================================================================== */
+.btn-custom {
+  background-color: var(--accent-black);
+  color: white;
+  font-weight: 600;
+  border-radius: 8px;
+  transition: all 0.2s;
+}
+
+.btn-custom:hover {
+  background-color: var(--accent-hover);
+  color: white;
+  transform: translateY(-1px);
+}
+
+.btn-outline-custom {
+  border: 2px solid var(--accent-black);
+  color: var(--accent-black);
+  font-weight: 600;
+  border-radius: 8px;
+  transition: all 0.2s;
+}
+
+.btn-outline-custom:hover {
+  background-color: var(--accent-black);
+  color: white;
+}
+
+.custom-card {
+  border-radius: 12px;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+  border: 1px solid #e2e8f0;
+}
+
+.custom-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  border-color: #cbd5e1;
+}
+
+/* ==========================================================================
+   4. SOCIAL MEDIA TAGS
+   ========================================================================== */
+.platform-tag {
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+}
+
+.tag-tiktok {
+  background: #000;
+  color: #fff;
+}
+.tag-instagram {
+  background: #e1306c;
+  color: #fff;
+}
+.tag-facebook {
+  background: #1877f2;
+  color: #fff;
+}
+
+/* ==========================================================================
+   5. MDF STREET SIGN INTERACTIVE MOCKUP
+   ========================================================================== */
+.mdf-mockup {
+  width: 100%;
+  max-width: 520px;
+  aspect-ratio: 395 / 98.75;
+  margin: 1.5rem auto;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  box-sizing: border-box;
+  clip-path: polygon(
+    14px 0%,
+    calc(100% - 14px) 0%,
+    100% 14px,
+    100% calc(100% - 14px),
+    calc(100% - 14px) 100%,
+    14px 100%,
+    0% calc(100% - 14px),
+    0% 14px
+  );
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.3);
+  transition: background-color 0.2s ease;
+}
+
+.mdf-mockup.black-base-white-text {
+  background-color: #121212;
+}
+.mdf-mockup.black-base-white-text .sign-border {
+  background-color: #f2f2f2;
+  border: 2px solid #e0e0e0;
+}
+.mdf-mockup.black-base-white-text #preview-text-display {
+  color: #121212;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.15);
+}
+
+.mdf-mockup.white-base-black-text {
+  background-color: #f2f2f2;
+}
+.mdf-mockup.white-base-black-text .sign-border {
+  background-color: #121212;
+  border: 2px solid #222222;
+}
+.mdf-mockup.white-base-black-text #preview-text-display {
+  color: #f2f2f2;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+}
+
+.sign-border {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 1.5rem;
+  box-sizing: border-box;
+  clip-path: polygon(
+    10px 0%,
+    calc(100% - 10px) 0%,
+    100% 10px,
+    100% calc(100% - 10px),
+    calc(100% - 10px) 100%,
+    10px 100%,
+    0% calc(100% - 10px),
+    0% 10px
+  );
+}
+
+#preview-text-display {
+  font-size: 1.4rem;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  line-height: 1;
+}
+
+.finish-btn {
+  background-color: #fff;
+  color: var(--text-primary);
+  border: 2px solid #e2e8f0;
+  padding: 0.7rem 1.4rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+.finish-btn.active {
+  background-color: #121212;
+  color: #ffffff;
+  border-color: #121212;
+}
+
+/* ==========================================================================
+   6. CUSTOM UTILITY & LAYOUT CLASSES
+   ========================================================================== */
+.bg-light-section {
+  background-color: #f1f5f9;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.card-img-custom {
+  height: 220px;
+  object-fit: cover;
+  background-color: var(--bg-main);
+}
+
+.card-img-hero {
+  object-fit: cover;
+  max-height: 400px;
+  width: 100%;
+}
+
+.form-container-md {
+  max-width: 800px;
+  width: 100%;
+}
+
+.form-container-sm {
+  max-width: 700px;
+  width: 100%;
+}
