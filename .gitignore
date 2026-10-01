@@ -179,3 +179,12 @@ cython_debug/
 #  refer to https://docs.cursor.com/context/ignore-files
 .cursorignore
 .cursorindexingignore
+
+# ==============================================================================
+# Project Specific & Secrets Protection (Capstone LO5.2 / LO6.3)
+# ==============================================================================
+env.py
+.env
+staticfiles/
+media/
+.DS_Store
