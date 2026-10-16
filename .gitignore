@@ -187,4 +187,5 @@ env.py
 .env
 staticfiles/
 media/
+private_svgs/
 .DS_Store

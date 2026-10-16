@@ -1,23 +1,27 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Pauly Bruv Engraving - Bespoke Laser Crafting{% endblock %}
+{% block title %}Pauly Bruv Engraving - Bespoke Laser Crafting Birmingham{% endblock %}
 
 {% block content %}
 <section class="py-5 bg-light-section">
   <div class="container">
     <div class="row align-items-center gap-4 gap-lg-0">
       <div class="col-lg-6 text-center text-lg-start">
+        <span class="badge bg-dark text-white mb-3 px-3 py-2">MADE IN CHELMSLEY WOOD, BIRMINGHAM</span>
         <h2 class="display-5 fw-bold text-dark mb-3">
-          Custom Laser Engraving & Bespoke Gifts
+          Custom Laser Engraving &amp; Bespoke Gifts
         </h2>
         <p class="lead text-secondary mb-4">
-          From Tactical Football Coasters to 3D MDF Street Signs — Precision
-          Laser Crafting Made in Birmingham.
+          From Tactical Football Coasters and 3D MDF Street Signs to Instant Photo-to-Laser Engravings — Precision Crafted with Proper Brummie Pride.
         </p>
         <div class="d-flex flex-wrap justify-content-center justify-content-lg-start gap-3">
-          <a href="#" class="btn btn-custom px-4 py-2">Contact Us</a>
-          <a href="#" class="btn btn-outline-custom px-4 py-2">Design a Street Sign</a>
+          <a href="{% url 'vectorizer' %}" class="btn btn-custom px-4 py-2">
+            📸 Try Photo Laser Mockup Studio
+          </a>
+          <a href="{% url 'street_signs' %}" class="btn btn-outline-custom px-4 py-2">
+            🪧 Design a 3D Street Sign
+          </a>
         </div>
       </div>
       <div class="col-lg-6">
@@ -32,13 +36,34 @@
 </section>
 
 <main class="container py-5">
-  <section class="text-center mb-5">
+  <!-- Featured New Tool: Photo-to-Laser Vectorizer Banner -->
+  <section class="card custom-card bg-dark text-white p-4 p-md-5 mb-5 border-0 shadow">
+    <div class="row align-items-center g-4">
+      <div class="col-lg-8">
+        <span class="badge bg-warning text-dark fw-bold mb-2">NEW INTERACTIVE TOOL</span>
+        <h2 class="h3 text-white mb-2">Upload Any Photo &rarr; See It Laser Engraved Instantly</h2>
+        <p class="text-white-50 mb-0">
+          Our new LightBurn Vectorizer removes the background from your photo and generates an instant proof on
+          <strong>Natural Slate</strong>, <strong>Birch / MDF</strong>, or <strong>Edge-Lit Acrylic</strong>. Order the physical engraved piece or license the 3-layer LightBurn SVG.
+        </p>
+      </div>
+      <div class="col-lg-4 text-lg-end">
+        <a href="{% url 'vectorizer' %}" class="btn btn-light fw-bold px-4 py-3">
+          Launch Photo Studio &rarr;
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Core Product Ranges -->
+  <section class="text-center mb-5" id="coasters">
     <h2 class="mb-3">Bespoke Laser Crafted Goods</h2>
     <p class="text-secondary mb-5">
-      Explore our core product ranges or get in touch to submit your own custom design for a quote.
+      Explore our core product ranges below. No account required — pick your item, send your custom details, and Paul will send over your PayPal link.
     </p>
 
     <div class="row g-4 justify-content-center">
+      <!-- 1. 3D Layered Street Signs -->
       <div class="col-12 col-md-6 col-lg-4">
         <article class="card custom-card h-100 bg-white">
           <img
@@ -50,13 +75,16 @@
             <h3 class="h5">3D Layered Street Signs</h3>
             <p class="fw-bold text-dark fs-5">From £25.00</p>
             <p class="text-secondary small mb-4">
-              395x98.75mm dual-layer MDF signs customized with your own street name or home bar layout.
+              395x98.75mm dual-layer MDF signs customized with your own street name, family bar, or club motto.
             </p>
-            <a href="#" class="btn btn-custom mt-auto">Design Your Sign</a>
+            <a href="{% url 'street_signs' %}" class="btn btn-custom mt-auto">
+              Design Your Sign Live
+            </a>
           </div>
         </article>
       </div>
 
+      <!-- 2. Tactical Slate Coasters -->
       <div class="col-12 col-md-6 col-lg-4">
         <article class="card custom-card h-100 bg-white">
           <img
@@ -68,14 +96,17 @@
             <h3 class="h5">Tactical Slate Coasters</h3>
             <p class="fw-bold text-dark fs-5">From £12.00 (Set of 4)</p>
             <p class="text-secondary small mb-4">
-              Precision etched natural slate featuring famous tactical goal routes and match scorelines.
+              Precision etched natural slate featuring iconic goals (Martins 2011 Wembley, Francis, Stern John, Gayle) or your own club's classic matches.
             </p>
-            <a href="#" class="btn btn-custom mt-auto">View Goal Sets</a>
+            <a href="#order-request" data-prefill-category="tactical_coaster" data-prefill-price="12.00" class="btn btn-custom mt-auto quick-prefill-btn">
+              Order Goal Coaster Set
+            </a>
           </div>
         </article>
       </div>
 
-      <div class="col-12 col-md-6 col-lg-4">
+      <!-- 3. Brummie Slang Magnets -->
+      <div class="col-12 col-md-6 col-lg-4" id="magnets">
         <article class="card custom-card h-100 bg-white">
           <img
             src="{% static 'images/slang-mags.jpg' %}"
@@ -84,17 +115,126 @@
           />
           <div class="card-body d-flex flex-column">
             <h3 class="h5">Brummie Slang Magnets</h3>
-            <p class="fw-bold text-dark fs-5">From £4.00</p>
+            <p class="fw-bold text-dark fs-5">From £4.00 (or 4 for £12)</p>
             <p class="text-secondary small mb-4">
-              Layered organic wood magnets featuring classic local sayings like "Alright Bab" and "Jeezy Peeps".
+              Layered organic wood magnets featuring classic local sayings like "Alright Bab", "Tara a-bit", "Gambol", and "Balti Triangle".
             </p>
-            <a href="#" class="btn btn-custom mt-auto">Browse Magnets</a>
+            <a href="#order-request" data-prefill-category="brummie_magnet" data-prefill-price="12.00" class="btn btn-custom mt-auto quick-prefill-btn">
+              Order Brummie Magnets
+            </a>
           </div>
         </article>
       </div>
     </div>
   </section>
 
+  <!-- Featured Bundle: The Man Cave Bundle -->
+  <section class="card custom-card bg-white p-4 p-md-5 mb-5 shadow-sm">
+    <div class="row align-items-center g-4">
+      <div class="col-md-5">
+        <img
+          src="{% static 'images/man-cave.jpg' %}"
+          alt="Keep Right On Street Sign and 4 Tactical Slate Coasters Bundle"
+          class="img-fluid rounded-3 border"
+        />
+      </div>
+      <div class="col-md-7">
+        <span class="badge bg-danger text-white mb-2">BESTSELLER GIFT BUNDLE • SAVE £5</span>
+        <h2 class="h3 mb-2">The Ultimate "Man Cave" Bundle — £32.00</h2>
+        <p class="text-secondary mb-3">
+          Pair any custom <strong>3D Layered MDF Street Sign</strong> (like <em>"KEEP RIGHT ON"</em> or your own home bar name) with a <strong>Set of 4 Tactical Football Slate Coasters</strong>.
+        </p>
+        <ul class="text-secondary small mb-4">
+          <li>1x 395x98.75mm Dual-Layer 3D MDF Street Sign (Black/White or White/Black)</li>
+          <li>4x Natural Slate Tactical Goal Route Coasters</li>
+          <li>Available for UK Tracked Delivery or Free Chelmsley Wood Collection</li>
+        </ul>
+        <div class="d-flex flex-wrap gap-3">
+          <a href="{% url 'street_signs' %}" class="btn btn-custom px-4 py-2">
+            Customize Bundle Sign
+          </a>
+          <a href="#order-request" data-prefill-category="man_cave_bundle" data-prefill-price="32.00" class="btn btn-outline-custom px-4 py-2 quick-prefill-btn">
+            Quick Order Bundle (£32)
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- B2B, Small Business & Creator Point-of-Sale Displays -->
+  <section class="mb-5" id="business-displays">
+    <div class="text-center mb-4">
+      <span class="badge bg-dark text-white mb-2 px-3 py-2">FOR SMALL BUSINESSES, MARKET STALLS &amp; CREATORS</span>
+      <h2 class="mb-2">Custom QR Payment Stands &amp; Branded Displays</h2>
+      <p class="text-secondary">
+        Stand out at craft markets, salons, bars, and book signings with bespoke laser-engraved QR code stands, coasters, and branded counter displays.
+      </p>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-md-4">
+        <article class="card custom-card h-100 bg-white">
+          <img
+            src="{% static 'images/council-wax-stand.jpg' %}"
+            alt="Council Wax and 3DEN Prints QR Code Counter Stand"
+            class="card-img-top p-3 rounded-4 card-img-custom"
+          />
+          <div class="card-body d-flex flex-column">
+            <h3 class="h5">Market Stall QR Counter Stands</h3>
+            <p class="fw-bold text-dark">From £18.00</p>
+            <p class="text-secondary small mb-3">
+              Freestanding layered MDF display with precision-engraved scannable QR code (PayPal, SumUp, Instagram, or TikTok) and your business logo.
+            </p>
+            <a href="#order-request" data-prefill-category="business_display" data-prefill-price="18.00" class="btn btn-outline-custom mt-auto quick-prefill-btn">
+              Order Business QR Stand
+            </a>
+          </div>
+        </article>
+      </div>
+
+      <div class="col-md-4">
+        <article class="card custom-card h-100 bg-white">
+          <img
+            src="{% static 'images/veon-stand-set.png' %}"
+            alt="Veon Branded Phone Stand, QR Coaster and Packaging"
+            class="card-img-top p-3 rounded-4 card-img-custom"
+          />
+          <div class="card-body d-flex flex-column">
+            <h3 class="h5">Branded Desk Stands &amp; QR Coasters</h3>
+            <p class="fw-bold text-dark">From £22.00</p>
+            <p class="text-secondary small mb-3">
+              Interlocking wooden phone/tablet stands paired with scannable QR code coasters and branded gift boxes for client gifting.
+            </p>
+            <a href="#order-request" data-prefill-category="business_display" data-prefill-price="22.00" class="btn btn-outline-custom mt-auto quick-prefill-btn">
+              Request Corporate / Brand Pack
+            </a>
+          </div>
+        </article>
+      </div>
+
+      <div class="col-md-4">
+        <article class="card custom-card h-100 bg-white">
+          <img
+            src="{% static 'images/goblin-stand.jpg' %}"
+            alt="The Bedtime Goblin Book Display Stand with QR Code"
+            class="card-img-top p-3 rounded-4 card-img-custom"
+          />
+          <div class="card-body d-flex flex-column">
+            <h3 class="h5">Author &amp; Creator Retail Displays</h3>
+            <p class="fw-bold text-dark">From £20.00</p>
+            <p class="text-secondary small mb-3">
+              Custom character artwork, "Scan to Buy" QR code, and matching die-cut wooden magnets built to showcase books, prints, or handmade products.
+            </p>
+            <a href="#order-request" data-prefill-category="business_display" data-prefill-price="20.00" class="btn btn-outline-custom mt-auto quick-prefill-btn">
+              Enquire About Creator Display
+            </a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- About the Maker -->
   <section class="card custom-card bg-white p-4 p-md-5 mb-5 border-0 shadow-sm">
     <div class="row align-items-center gap-4 gap-md-0">
       <div class="col-md-5">
@@ -105,7 +245,7 @@
         />
       </div>
       <div class="col-md-7">
-        <h2 class="mb-4">About the Maker</h2>
+        <h2 class="mb-3">About the Maker</h2>
         <p class="text-secondary">
           Hi, I'm Paul. Based right here in Chelmsley Wood, Birmingham, Pauly Bruv Engraving is born out of a lifelong passion for digital design and hands-on crafting.
         </p>
@@ -117,6 +257,82 @@
         </p>
       </div>
     </div>
+  </section>
+
+  <!-- Direct Guest Order & Commission Request Form (PayPal Link Workflow) -->
+  <section id="order-request" class="card custom-card bg-white p-4 p-md-5 shadow-sm mx-auto form-container-md">
+    <div class="text-center mb-4">
+      <span class="badge bg-dark text-white mb-2 px-3 py-2">DIRECT WORKSHOP ORDER</span>
+      <h2 class="h3 mb-2">Place an Order or Request a Custom Commission</h2>
+      <p class="text-secondary small mb-0">
+        Fill in what you'd like below. Once I check your custom details, I'll reply directly with your <strong>PayPal payment link</strong> and turnaround time.
+      </p>
+    </div>
+
+    <form id="homepage-order-form">
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label fw-semibold" for="home-customer-name">Your Name *</label>
+          <input type="text" id="home-customer-name" name="customer_name" class="form-control" required placeholder="Your Name" />
+        </div>
+        <div class="col-md-6">
+          <label class="form-label fw-semibold" for="home-customer-email">Email Address (for PayPal Link) *</label>
+          <input type="email" id="home-customer-email" name="customer_email" class="form-control" required placeholder="you@example.com" />
+        </div>
+        <div class="col-md-6">
+          <label class="form-label fw-semibold" for="home-customer-phone">Phone / WhatsApp / Social Handle</label>
+          <input type="text" id="home-customer-phone" name="customer_phone" class="form-control" placeholder="Optional (for quick proof photos)" />
+        </div>
+        <div class="col-md-6">
+          <label class="form-label fw-semibold" for="home-product-category">Product Range</label>
+          <select id="home-product-category" name="product_category" class="form-select">
+            <option value="tactical_coaster" data-price="12.00">Tactical Football Slate Coasters (Set of 4 — £12)</option>
+            <option value="street_sign" data-price="25.00">3D Layered MDF Street Sign (£25)</option>
+            <option value="man_cave_bundle" data-price="32.00">Man Cave Bundle: Street Sign + 4 Coasters (£32)</option>
+            <option value="brummie_magnet" data-price="12.00">Brummie Slang Wood Magnets (Set of 4 — £12)</option>
+            <option value="business_display" data-price="20.00">B2B / Market Stall QR Code Stand (From £18)</option>
+            <option value="photo_engraving" data-price="15.00">Custom Photo Laser Engraving (From £12)</option>
+            <option value="custom_quote" data-price="20.00">Bespoke Commission / Something Else</option>
+          </select>
+        </div>
+        <div class="col-md-8">
+          <label class="form-label fw-semibold" for="home-custom-text">Custom Text / Match / Slang Choices</label>
+          <input
+            type="text"
+            id="home-custom-text"
+            name="custom_text"
+            class="form-control"
+            placeholder="e.g. Blues Set (Martins, Francis, Stern John, Gayle) or custom sign wording"
+          />
+        </div>
+        <div class="col-md-4">
+          <label class="form-label fw-semibold" for="home-fulfillment">Delivery or Collection</label>
+          <select id="home-fulfillment" name="fulfillment_type" class="form-select">
+            <option value="uk_delivery">UK Postage (+£3.50)</option>
+            <option value="birmingham_collection">Free Collection (B37)</option>
+          </select>
+        </div>
+        <div class="col-12">
+          <label class="form-label fw-semibold" for="home-notes">Delivery Address &amp; Extra Details</label>
+          <textarea
+            id="home-notes"
+            name="notes"
+            class="form-control"
+            rows="3"
+            placeholder="Include your UK delivery address (if posting) and any specific design requests, QR links, or questions..."
+          ></textarea>
+        </div>
+      </div>
+
+      <input type="hidden" id="home-estimated-price" name="estimated_price" value="12.00" />
+      <div id="home-order-alert" class="alert d-none mt-3 mb-0"></div>
+
+      <div class="mt-4 text-center">
+        <button type="submit" class="btn btn-custom px-5 py-3 fw-bold">
+          Send Order to Paul &amp; Request PayPal Link
+        </button>
+      </div>
+    </form>
   </section>
 </main>
 {% endblock %}

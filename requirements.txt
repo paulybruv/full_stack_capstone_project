@@ -3,7 +3,12 @@ dj-database-url==3.1.2
 Django==6.1.1
 django-allauth==65.19.7
 gunicorn==26.2.0
+numpy==2.5.4
+onnxruntime==1.31.0
+opencv-python-headless==5.0.0.93
+Pillow==12.3.0
 psycopg2-binary==2.9.13
+rembg==2.0.85
 sqlparse==0.6.0
 tzdata==2026.4
 whitenoise==6.12.0

@@ -1,0 +1,377 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Photo Laser Vectorizer & Live Mockup Studio | Pauly Bruv Engraving{% endblock %}
+
+{% block content %}
+<section class="py-4 bg-light-section">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-8">
+        <span class="badge bg-dark text-white mb-2 px-3 py-2">LIGHTBURN 3-LAYER VECTOR ENGINE</span>
+        <h2 class="display-6 fw-bold text-dark mb-2">
+          Instant Photo-to-Laser Mockup Studio
+        </h2>
+        <p class="text-secondary mb-0">
+          Upload any portrait, pet photo, or club crest to preview how it looks laser-engraved on
+          <strong>Natural Slate</strong>, <strong>Birch / MDF</strong>, or <strong>Edge-Lit Acrylic</strong>.
+          Production LightBurn SVG files are generated server-side and linked directly to your order.
+        </p>
+      </div>
+      <div class="col-lg-4 text-lg-end mt-3 mt-lg-0">
+        <button type="button" id="try-sample-btn" class="btn btn-outline-custom px-4 py-2">
+          ⚡ Load Sample Portrait
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<main class="container py-5">
+  <div class="row g-4 align-items-start">
+    <!-- Left Column: Upload & Controls -->
+    <div class="col-lg-5">
+      <div class="card custom-card bg-white p-4 shadow-sm mb-4">
+        <h3 class="h5 mb-3">1. Upload Your Photo</h3>
+
+        <div
+          id="vector-dropzone"
+          class="vector-dropzone text-center p-4 rounded-3 mb-3"
+          role="button"
+          tabindex="0"
+          aria-label="Upload photo for laser engraving preview"
+        >
+          <input
+            type="file"
+            id="vector-file-input"
+            accept="image/jpeg,image/png,image/webp"
+            class="d-none"
+          />
+          <div class="mb-2 fs-2">📸</div>
+          <p class="fw-bold text-dark mb-1">Drag &amp; drop a photo here, or click to browse</p>
+          <p class="text-secondary small mb-0">
+            Supports JPG, PNG, WEBP up to 12MB. Background is automatically removed.
+          </p>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <span id="upload-status-text" class="small text-secondary">
+            Ready to vectorize your photo.
+          </span>
+          <button type="button" id="try-sample-inline-btn" class="btn btn-link btn-sm text-decoration-none fw-semibold p-0">
+            Use sample photo instead &rarr;
+          </button>
+        </div>
+
+        <hr class="my-3" />
+
+        <h3 class="h5 mb-3">2. Choose Material Surface</h3>
+        <div class="d-grid gap-2 mb-4" role="group" aria-label="Material switcher">
+          <button
+            type="button"
+            class="material-switch-btn active text-start d-flex justify-content-between align-items-center"
+            data-material="slate"
+            data-material-label="Natural Slate Coaster"
+          >
+            <span>
+              <strong>Natural Slate Coaster</strong>
+              <small class="d-block text-secondary">Silver-white laser etch on cleft dark Welsh/natural slate</small>
+            </span>
+            <span class="badge bg-dark">From £12</span>
+          </button>
+
+          <button
+            type="button"
+            class="material-switch-btn text-start d-flex justify-content-between align-items-center"
+            data-material="mdf"
+            data-material-label="Laser Cut MDF / Birch"
+          >
+            <span>
+              <strong>Laser Cut MDF / Birch Plaque</strong>
+              <small class="d-block text-secondary">Deep roasted laser burn char on organic wood grain</small>
+            </span>
+            <span class="badge bg-dark">From £18</span>
+          </button>
+
+          <button
+            type="button"
+            class="material-switch-btn text-start d-flex justify-content-between align-items-center"
+            data-material="acrylic"
+            data-material-label="Edge-Lit Acrylic"
+          >
+            <span>
+              <strong>Edge-Lit LED Acrylic</strong>
+              <small class="d-block text-secondary">Precision frosted acrylic with illuminated LED base</small>
+            </span>
+            <span class="badge bg-dark">From £28</span>
+          </button>
+        </div>
+
+        <hr class="my-3" />
+
+        <h3 class="h5 mb-2">3. Add Custom Engraving Text (Optional)</h3>
+        <p class="text-secondary small mb-2">
+          Add a name, date, match scoreline, or bar title to engrave beneath your image:
+        </p>
+        <input
+          type="text"
+          id="vector-custom-text"
+          class="form-control mb-1"
+          maxlength="32"
+          placeholder="e.g. KEEP RIGHT ON • EST. 1875"
+        />
+        <div class="d-flex justify-content-between">
+          <small class="text-secondary">Updates live on the proof &amp; LightBurn SVG</small>
+          <small id="vector-char-count" class="text-secondary">0 / 32</small>
+        </div>
+      </div>
+
+      <!-- Server-Side LightBurn Spec Card -->
+      <div class="card custom-card bg-white p-3 shadow-sm">
+        <div class="d-flex align-items-center justify-content-between mb-2">
+          <span class="fw-bold small text-uppercase text-secondary">LightBurn Server-Side Spec</span>
+          <span id="svg-lock-badge" class="badge bg-secondary">🔒 Protected Server File</span>
+        </div>
+        <div class="row g-2 small">
+          <div class="col-4">
+            <div class="p-2 rounded border bg-light">
+              <span class="d-inline-block rounded-circle me-1" style="width:10px;height:10px;background:#000000;"></span>
+              <strong>Layer 00</strong>
+              <div class="text-secondary" style="font-size:0.75rem;">Cut (#000000 0.1mm)</div>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="p-2 rounded border bg-light">
+              <span class="d-inline-block rounded-circle me-1" style="width:10px;height:10px;background:#0000FF;"></span>
+              <strong>Layer 01</strong>
+              <div class="text-secondary" style="font-size:0.75rem;">Score (#0000FF 0.1mm)</div>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="p-2 rounded border bg-light">
+              <span class="d-inline-block rounded-circle me-1" style="width:10px;height:10px;background:#FF0000;"></span>
+              <strong>Layer 02</strong>
+              <div class="text-secondary" style="font-size:0.75rem;">Fill (#FF0000 Solid)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column: Protected Watermarked Preview & Action Buttons -->
+    <div class="col-lg-7">
+      <div class="card custom-card bg-white p-4 shadow-sm">
+        <div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
+          <div>
+            <h3 class="h5 mb-0">Live Laser Engraving Proof</h3>
+            <small id="active-material-caption" class="text-secondary">
+              Material: Natural Slate Coaster • Watermarked Proof
+            </small>
+          </div>
+          <span id="job-ref-badge" class="badge bg-light text-dark border">
+            Awaiting Photo...
+          </span>
+        </div>
+
+        <!-- Protected Preview Stage (Disables Right-Click & Image Dragging) -->
+        <div
+          id="proof-stage"
+          class="proof-stage position-relative rounded-4 overflow-hidden mx-auto mb-4"
+          oncontextmenu="return false;"
+          ondragstart="return false;"
+          onselectstart="return false;"
+        >
+          <!-- Loading Spinner Overlay -->
+          <div id="proof-loading-overlay" class="proof-loading-overlay d-none">
+            <div class="spinner-border text-light mb-2" role="status"></div>
+            <div class="fw-bold text-white">Running rembg &amp; OpenCV Vectorization...</div>
+            <small class="text-white-50">Generating 3-layer LightBurn SVG &amp; material proofs</small>
+          </div>
+
+          <!-- Raster Watermarked Proof Image -->
+          <img
+            id="proof-raster-img"
+            src="{% static 'images/hero-banner.jpg' %}"
+            alt="Watermarked Laser Engraving Proof"
+            class="proof-raster-img w-100 h-100"
+            draggable="false"
+          />
+
+          <!-- Live Custom Text Overlay on Mockup -->
+          <div id="proof-live-text-overlay" class="proof-live-text-overlay material-slate">
+            <span id="proof-live-text-span"></span>
+          </div>
+
+          <!-- Transparent Anti-Save Security Shield -->
+          <div
+            class="proof-security-shield"
+            title="Protected Proof — Place an order or buy the LightBurn SVG license to unlock production files"
+          ></div>
+        </div>
+
+        <!-- Action Alert Banner (for order confirmation or SVG download link) -->
+        <div id="vectorizer-alert-box" class="alert d-none mb-3" role="alert"></div>
+
+        <!-- Primary Action Buttons -->
+        <div class="row g-3">
+          <div class="col-md-7">
+            <button
+              type="button"
+              id="open-physical-order-btn"
+              class="btn btn-custom w-100 py-3 fw-bold"
+              data-bs-toggle="modal"
+              data-bs-target="#physicalOrderModal"
+            >
+              🛠️ Order Physical Engraving
+            </button>
+          </div>
+          <div class="col-md-5">
+            <button
+              type="button"
+              id="open-digital-svg-btn"
+              class="btn btn-outline-custom w-100 py-3 fw-bold"
+              data-bs-toggle="modal"
+              data-bs-target="#digitalSvgModal"
+            >
+              📐 Buy LightBurn SVG (£4.99)
+            </button>
+          </div>
+        </div>
+
+        <p class="text-secondary small text-center mt-3 mb-0">
+          Physical orders are sent straight to Paul in Chelmsley Wood — you'll receive a PayPal payment link once your design proof is confirmed.
+        </p>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- Modal 1: Order Physical Engraving -->
+<div class="modal fade" id="physicalOrderModal" tabindex="-1" aria-labelledby="physicalOrderModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content border-0 shadow">
+      <div class="modal-header bg-dark text-white">
+        <h4 class="modal-title h5" id="physicalOrderModalLabel">
+          Order Physical Laser Engraving
+        </h4>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form id="physical-order-form">
+        <div class="modal-body p-4">
+          <div class="alert alert-light border small mb-3">
+            <strong>How Payment Works:</strong> No upfront card details required. Submit your order below and Paul will check your automatically generated LightBurn vector file and send you a <strong>PayPal payment link</strong> to confirm.
+          </div>
+
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label fw-semibold" for="order-customer-name">Your Name *</label>
+              <input type="text" id="order-customer-name" name="customer_name" class="form-control" required placeholder="e.g. Paul B" />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-semibold" for="order-customer-email">Email Address (for PayPal Link) *</label>
+              <input type="email" id="order-customer-email" name="customer_email" class="form-control" required placeholder="you@example.com" />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-semibold" for="order-customer-phone">Phone / WhatsApp (Optional)</label>
+              <input type="text" id="order-customer-phone" name="customer_phone" class="form-control" placeholder="07..." />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-semibold" for="order-material-select">Material</label>
+              <select id="order-material-select" name="material" class="form-select">
+                <option value="Natural Slate Coaster">Natural Slate Coaster</option>
+                <option value="Laser Cut MDF / Birch">Laser Cut MDF / Birch Plaque</option>
+                <option value="Edge-Lit Acrylic">Edge-Lit LED Acrylic</option>
+              </select>
+            </div>
+            <div class="col-md-8">
+              <label class="form-label fw-semibold" for="order-size-select">Size &amp; Package Option</label>
+              <select id="order-size-select" name="size_option" class="form-select">
+                <option value="100x100mm Single Coaster / Plaque" data-price="12.00">100x100mm Single Engraved Piece — £12.00</option>
+                <option value="Set of 4 Slate Coasters (100x100mm)" data-price="32.00">Set of 4 Coasters (Save £16) — £32.00</option>
+                <option value="200x200mm Large Wall / Desk Plaque + Stand" data-price="25.00">200x200mm Large Plaque + Wooden Stand — £25.00</option>
+                <option value="Edge-Lit Acrylic Sign + USB LED Base" data-price="28.00">Edge-Lit Acrylic Sign + USB LED Base — £28.00</option>
+              </select>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label fw-semibold" for="order-quantity">Quantity</label>
+              <input type="number" id="order-quantity" name="quantity" class="form-control" value="1" min="1" max="50" />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-semibold" for="order-custom-text-modal">Engraved Text on Piece</label>
+              <input type="text" id="order-custom-text-modal" name="custom_text" class="form-control" maxlength="40" placeholder="Optional custom text" />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-semibold" for="order-fulfillment">Delivery or Local Collection</label>
+              <select id="order-fulfillment" name="fulfillment_type" class="form-select">
+                <option value="uk_delivery" data-shipping="3.50">UK Tracked Postage (+£3.50)</option>
+                <option value="birmingham_collection" data-shipping="0.00">Free Local Collection (Chelmsley Wood, B37)</option>
+              </select>
+            </div>
+            <div class="col-12">
+              <label class="form-label fw-semibold" for="order-address">Delivery Address / Notes for Paul</label>
+              <textarea id="order-address" name="delivery_address" class="form-control" rows="2" placeholder="Enter your UK delivery address or any special engraving notes..."></textarea>
+            </div>
+          </div>
+
+          <div class="d-flex justify-content-between align-items-center bg-light p-3 rounded-3 mt-3 border">
+            <div>
+              <span class="text-secondary small d-block">Estimated Total (Payable via PayPal Link)</span>
+              <strong id="modal-price-display" class="fs-4 text-dark">£15.50</strong>
+            </div>
+            <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-2">
+              ✓ Server LightBurn SVG Linked
+            </span>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" id="submit-physical-order-btn" class="btn btn-custom px-4">
+            Submit Order &amp; Request PayPal Link
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Modal 2: Buy Digital LightBurn SVG File (£4.99) -->
+<div class="modal fade" id="digitalSvgModal" tabindex="-1" aria-labelledby="digitalSvgModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 shadow">
+      <div class="modal-header bg-dark text-white">
+        <h4 class="modal-title h5" id="digitalSvgModalLabel">
+          Buy LightBurn Vector File (£4.99)
+        </h4>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form id="digital-svg-form">
+        <div class="modal-body p-4">
+          <p class="text-secondary small mb-3">
+            Unlock the clean, un-watermarked <strong>3-Layer LightBurn SVG</strong> file generated from your photo:
+          </p>
+          <ul class="small text-secondary mb-3">
+            <li><strong>Layer 00 (`#000000` 0.1mm)</strong>: Outer Cut Profile</li>
+            <li><strong>Layer 01 (`#0000FF` 0.1mm)</strong>: Line / Score Accents</li>
+            <li><strong>Layer 02 (`#FF0000` Fill)</strong>: Solid Laser Engraving Fills</li>
+          </ul>
+          <div class="mb-3">
+            <label class="form-label fw-semibold" for="digital-customer-name">Your Name *</label>
+            <input type="text" id="digital-customer-name" class="form-control" required placeholder="Your Name" />
+          </div>
+          <div class="mb-3">
+            <label class="form-label fw-semibold" for="digital-customer-email">Your Email Address *</label>
+            <input type="email" id="digital-customer-email" class="form-control" required placeholder="you@example.com" />
+          </div>
+          <div id="digital-download-result" class="alert alert-success d-none mb-0"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" id="unlock-svg-submit-btn" class="btn btn-custom px-4">
+            Unlock &amp; Generate One-Time SVG Link (£4.99)
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

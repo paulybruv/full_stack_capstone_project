@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}3D Layered MDF Street Sign Builder | Pauly Bruv Engraving{% endblock %}
+
+{% block content %}
+<section class="py-4 bg-light-section">
+  <div class="container text-center">
+    <span class="badge bg-dark text-white mb-2 px-3 py-2">395 x 98.75mm DUAL-LAYER MDF</span>
+    <h2 class="display-6 fw-bold text-dark mb-2">Interactive 3D Street Sign Builder</h2>
+    <p class="text-secondary mb-0">
+      Type your custom street name, family bar title, or football motto below to preview your dual-layer laser-cut sign in real time.
+    </p>
+  </div>
+</section>
+
+<main class="container py-5">
+  <div class="row g-4 align-items-start">
+    <div class="col-lg-7">
+      <div class="card custom-card bg-white p-4 shadow-sm text-center">
+        <h3 class="h5 mb-2">Live 3D Layered Plaque Preview</h3>
+        <p class="text-secondary small mb-3">
+          Precision cut on our Atomstack X7 in Chelmsley Wood and hand-assembled for deep 3D relief.
+        </p>
+
+        <!-- Interactive 3D MDF Street Sign Mockup -->
+        <div id="mdf-sign-mockup" class="mdf-mockup black-base-white-text">
+          <div class="sign-border">
+            <span id="preview-text-display">KEEP RIGHT ON</span>
+          </div>
+        </div>
+
+        <!-- Finish Switcher Buttons -->
+        <div class="d-flex flex-wrap justify-content-center gap-3 mt-3 mb-4">
+          <button
+            type="button"
+            class="finish-btn active"
+            data-finish="black-base-white-text"
+            data-finish-label="Black Frame & Letters / White Plate"
+          >
+            ⚫⚪ Black Border &amp; Text on White
+          </button>
+          <button
+            type="button"
+            class="finish-btn"
+            data-finish="white-base-black-text"
+            data-finish-label="White Frame & Letters / Black Plate"
+          >
+            ⚪⚫ White Border &amp; Text on Black
+          </button>
+        </div>
+
+        <div class="row g-3 text-start mt-2">
+          <div class="col-sm-6">
+            <img
+              src="{% static 'images/mdf-sign.jpg' %}"
+              alt="Finished 3D MDF Street Sign Love You Bye"
+              class="img-fluid rounded-3 border card-img-custom w-100"
+            />
+          </div>
+          <div class="col-sm-6">
+            <img
+              src="{% static 'images/man-cave.jpg' %}"
+              alt="Keep Right On Street Sign and Coasters Bundle"
+              class="img-fluid rounded-3 border card-img-custom w-100"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-5">
+      <div class="card custom-card bg-white p-4 shadow-sm">
+        <h3 class="h5 mb-3">Customize &amp; Order Your Sign</h3>
+        <form id="street-sign-order-form">
+          <input type="hidden" name="product_category" value="street_sign" />
+          <input type="hidden" name="material" value="Dual-Layer 3D Laser-Cut MDF" />
+          <input type="hidden" id="sign-finish-input" name="finish_option" value="Black Border & Text on White" />
+
+          <div class="mb-3">
+            <label class="form-label fw-semibold" for="custom-text-input">1. Enter Your Sign Text *</label>
+            <input
+              type="text"
+              id="custom-text-input"
+              name="custom_text"
+              class="form-control form-control-lg fw-bold text-uppercase"
+              maxlength="24"
+              value="KEEP RIGHT ON"
+              required
+              placeholder="YOUR TEXT HERE"
+            />
+            <div class="d-flex justify-content-between mt-1">
+              <small class="text-secondary">Raised 3D laser-cut lettering</small>
+              <small id="char-count" class="text-secondary">13 / 24 characters</small>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label fw-semibold" for="sign-package-select">2. Choose Sign or Bundle</label>
+            <select id="sign-package-select" name="size_option" class="form-select">
+              <option value="395x98.75mm 3D Layered MDF Street Sign" data-price="25.00">
+                395x98.75mm 3D Layered Street Sign — £25.00
+              </option>
+              <option value="Man Cave Bundle: 3D Street Sign + 4 Tactical Slate Coasters" data-price="32.00">
+                🔥 Man Cave Bundle: Street Sign + 4 Tactical Coasters — £32.00 (Save £5)
+              </option>
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label fw-semibold" for="sign-fulfillment">3. Delivery or Collection</label>
+            <select id="sign-fulfillment" name="fulfillment_type" class="form-select">
+              <option value="uk_delivery">UK Tracked Delivery (+£3.50)</option>
+              <option value="birmingham_collection">Free Local Collection (Chelmsley Wood, B37)</option>
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label fw-semibold" for="sign-customer-name">Your Name *</label>
+            <input type="text" id="sign-customer-name" name="customer_name" class="form-control" required placeholder="Your Name" />
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label fw-semibold" for="sign-customer-email">Email Address (for PayPal Link) *</label>
+            <input type="email" id="sign-customer-email" name="customer_email" class="form-control" required placeholder="you@example.com" />
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label fw-semibold" for="sign-notes">Delivery Address / Mounting Notes</label>
+            <textarea id="sign-notes" name="delivery_address" class="form-control" rows="2" placeholder="Delivery address, screw holes vs adhesive backing, or coaster choices if ordering the bundle..."></textarea>
+          </div>
+
+          <div id="sign-order-alert" class="alert d-none mb-3"></div>
+
+          <button type="submit" class="btn btn-custom w-100 py-3 fw-bold">
+            Order This Sign (Pay via PayPal Link)
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</main>
+{% endblock %}
